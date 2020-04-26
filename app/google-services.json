@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "562491084174",
+    "firebase_url": "https://app-recetas-7031c.firebaseio.com",
+    "project_id": "app-recetas-7031c",
+    "storage_bucket": "app-recetas-7031c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562491084174:android:0e4d8e05212c056af4a8df",
+        "android_client_info": {
+          "package_name": "com.example.proyecto_final_android_2019_20"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562491084174-uvnirt341inocum7vt0js45avcl6fflu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.proyecto_final_android_2019_20",
+            "certificate_hash": "71ed8d4a0215969314f7a45daaf431e37c26398d"
+          }
+        },
+        {
+          "client_id": "562491084174-mpu0kkeql3u14baqj670cog45j31tpkq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA28kSaYQPrhqe9ZvNzon5WJo9GoxZKfgk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562491084174-mpu0kkeql3u14baqj670cog45j31tpkq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

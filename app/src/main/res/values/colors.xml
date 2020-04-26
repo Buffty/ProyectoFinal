@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorInicio">#99000000</color>
+    <color name="colorRegistrar">#C1000000</color>
+    <color name="negroPuro">#000</color>
+    <color name="separadorGris">#D3090808</color>
+    <color name="separadorBlanco">#E6FFFFFF</color>
+    <color name="background_nav">#9E090808</color>
+    <color name="separadorNegro">#090808</color>
+    <color name="colorRegistrarBlanco">#C1EBE7E7</color>
+    <color name="botonesInicio">#611870</color>
+    <color name="txt_blanco">#DFDFDF</color>
+    <color name="boton_recycler">#30BE68</color>
+    <color name="icono_add_floating_menu">#d4e157</color>
+    <color name="boton_floating_menu">#304ffe</color>
+    <color name="boton_floating_botones">#616161</color>
+    <color name="boton_floating_presionado">#6d4c41</color>
+    <color name="colorBorrarGranate">#8A0808</color>
+    <color name="colorGrisBlanca">#BDBDBD</color>
+    <color name="negro_semitransparente">#B2000000</color>
+    <color name="blanco">#52FAFAFA</color>
+    <color name="fondoIngredientes">#F2FFFFFF</color>
+</resources>

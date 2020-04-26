@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/navigation_subheader1"
+        android:title="Perfil">
+        <menu>
+            <item
+                android:id="@+id/opc_configure"
+                android:title="@string/txt_configuracion_item"
+                android:checkable="false"/>
+            <item
+                android:id="@+id/menu_opcion2"
+                android:title="@string/txt_change_password_item"
+                android:checkable="false"/>
+            <item
+                android:id="@+id/menu_opcion3"
+                android:title="@string/txt_contactanos_item"
+                android:checkable="false"/>
+        </menu>
+    </item>
+    <item android:id="@+id/navigation_subheader2"
+        android:title="Estado">
+        <menu>
+            <item
+                android:checkable="false"
+                android:id="@+id/opc_close"
+                android:icon="@drawable/ic_power_settings_new_black_24dp"
+                android:title="@string/txt_close_session_item" />
+        </menu>
+    </item>
+</menu>

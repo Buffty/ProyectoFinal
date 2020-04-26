@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:background="@drawable/flower_rustic"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".activities.ventanaPrincipal">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.84" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.88" />
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_lay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/fondotabla"
+            android:padding="5dp"
+            android:saveEnabled="false">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_recetas"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="0dp"
+                android:background="#00FFFFFF"
+                android:padding="5dp"
+                android:scrollbars="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/guideline17"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/header_nav"
+            app:menu="@menu/menu_header" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/btn_menu"
+            android:layout_width="107dp"
+            android:layout_height="144dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/botonesInicio"
+            app:fab_addButtonColorNormal="@color/boton_floating_menu"
+            app:fab_addButtonPlusIconColor="@color/icono_add_floating_menu"
+            app:fab_labelStyle="@style/Etiquetas"
+            app:fab_labelsPosition="left"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/boton_floating_botones"
+                app:fab_colorPressed="@color/boton_floating_presionado"
+                app:fab_icon="@drawable/ic_note_add_black_24dp"
+                app:fab_size="mini"
+                app:fab_title="@string/add_receta_floating_button" />
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_perfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/boton_floating_botones"
+                app:fab_colorPressed="@color/boton_floating_presionado"
+                app:fab_icon="@drawable/ic_person_rose_24dp"
+                app:fab_size="mini"
+                app:fab_title="@string/txt_info_floating" />
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_acercaDe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/boton_floating_botones"
+                app:fab_colorPressed="@color/boton_floating_presionado"
+                app:fab_icon="@drawable/ic_info_outline_rosa_24dp"
+                app:fab_size="mini"
+                app:fab_title="@string/txt_info_floating" />
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_foro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/boton_floating_botones"
+                app:fab_colorPressed="@color/boton_floating_presionado"
+                app:fab_icon="@drawable/ic_forum_black_24dp"
+                app:fab_size="mini"
+                app:fab_title="@string/txt_foro_floating" />
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.07" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

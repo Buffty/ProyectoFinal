@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hummus</string>
+    <string name="UsuarioLayout">User...</string>
+    <string name="PasswordLayout">Password...</string>
+    <string name="inicio">Start session</string>
+    <string name="txt_btn_Inicio">Start</string>
+    <string name="btnRegistrar">Register</string>
+    <string name="forgetPassword">Forgot password?</string>
+    <string name="name_user_regis">User name</string>
+    <string name="passwd_registrar">Password</string>
+    <string name="txt_registrar">User Register</string>
+    <string name="passwd_registrar_conf">Repeat password</string>
+    <string name="registrarse">Register</string>
+    <string name="switch_txt">Show password</string>
+    <string name="add_receta">Add receta</string>
+    <string name="recovery_password">Password Recovery</string>
+    <string name="repeat_password">Repeat again password</string>
+    <string name="insertPassword">Insert your password</string>
+    <string name="recupera_usuario">Insert user</string>
+    <string name="txt_btn_recuperar">Recovery</string>
+    <string name="txt_pais">Choose a country:</string>
+    <string name="correo_edit">Email</string>
+    <string name="titulo">Title</string>
+    <string name="titulo_receta">Title: </string>
+    <string name="descripcion_receta_add">Write the description of your recipe!</string>
+    <string name="txt_spinner">Type:</string>
+    <string name="add_dificultades">Difficulties:</string>
+    <string name="ingredientes_add">Filled with ingredients</string>
+    <string name="add_duration">Duration</string>
+    <string name="pestanya_Imagen">Global</string>
+    <string name="detall_add">Details</string>
+    <string name="Compartir_receta">Share</string>
+    <string name="dificultad_receta">Difficulty:</string>
+    <string name="tipo_receta">Type:</string>
+    <string name="duracion_receta">Duration:</string>
+    <string name="btn_txt_modificar">Modify</string>
+    <string name="btn_abrir">Open</string>
+    <string name="add_receta_floating_button">Add recipe</string>
+    <string name="txt_foro_floating">Forum</string>
+    <string name="txt_info_floating">Info</string>
+    <string name="txt_guardar">Save</string>
+    <string name="txt_siguiente">Next</string>
+    <string name="eliminar">Delete</string>
+    <string name="ingredientes">INGREDIENTS:</string>
+    <string name="txt_descr_receta">Description:</string>
+    <string name="btn_add">Add</string>
+    <string name="dial_desc_cantidad">Quantity</string>
+    <string name="dial_desc_ingrediente">Ingredient name</string>
+    <string name="txt_compartir">Share</string>
+    <string name="txt_configuracion_item">Settings</string>
+    <string name="txt_change_password_item">Password change</string>
+    <string name="txt_contactanos_item">Contact Us</string>
+    <string name="txt_close_session_item">Sign off</string>
+
+    <string-array name="tipos">
+        <item>Meat</item>
+        <item>Vegetarian</item>
+        <item>Vegan</item>
+    </string-array>
+    <string-array name="dificultades">
+        <item>Easy</item>
+        <item>Normal</item>
+        <item>Hard</item>
+    </string-array>
+
+</resources>

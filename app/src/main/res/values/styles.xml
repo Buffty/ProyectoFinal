@@ -1,0 +1,191 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="EstiloLetras" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/meriendaone_regular</item>
+        <item name="android:textColor">#FFF</item>
+    </style>
+    <style name="EstiloDescrTituloReceta" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/hind_madurai_medium</item>
+        <item name="android:textColor">#000</item>
+    </style>
+
+    <style name="EstiloDescripAdd" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/meriendaone_regular</item>
+        <item name="android:textColor">#6D10A3</item>
+    </style>
+
+    <style name="TituloRecycler" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/meriendaone_regular</item>
+        <item name="android:textColor">#242323</item>
+
+    </style>
+    <style name="DescripcionRecycler" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/rosario</item>
+        <item name="android:textColor">#311b92</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ContenidoRecycler" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:fontFamily">@font/rosario</item>
+        <item name="android:textColor">#181717</item>
+    </style>
+
+    <style name="EstiloEditor" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">@font/meriendaone_regular</item>
+        <item name="android:textColor">#6D10A3</item>
+    </style>
+    <style name="EstiloAddReceta" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/hind_madurai_medium</item>
+        <item name="android:textColor">#2E2D2D</item>
+    </style>
+    <style name="EstiloEnlaces" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#0073FF</item>
+    </style>
+    <style name="TamanyoTextsInputs" parent="android:style/TextAppearance.Medium">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="estiloSpinner" parent="Base.Widget.AppCompat.Spinner">
+        <item name="android:gravity">left</item>
+        <item name="android:textColor">#D1D1D1</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Etiquetas">
+        <item name="android:background">@drawable/background_label</item>
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <!-- ESTILOS DE ADD RECETA -->
+
+    <style name="Estilo_Descripcion_Receta" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/hind_madurai_medium</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    <style name="Estilo_Add_Receta" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/hind_madurai_medium</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <!-- ESTILOS DE DIALOGO INGREDIENTES FRAGMENT -->
+    <style name="Title_dialog_ingre" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/tamanyoDialogo</item>
+        <item name="android:fontFamily">@font/kreon</item>
+        <item name="android:textColor">#050505</item>
+    </style>
+    <style name="Title_dialog" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/letraTitle</item>
+        <item name="android:fontFamily">@font/kotta_one</item>
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textColor">#050505</item>
+    </style>
+    <!-- ESTILOS DE DETALLES FRAGMENT -->
+
+    <style name="TitleIngre" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/letraTitleIngre</item>
+        <item name="android:fontFamily">@font/meriendaone_regular</item>
+        <item name="android:textColor">#050505</item>
+    </style>
+    <style name="DescTitleIngre" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/letraDescIngre</item>
+        <item name="android:fontFamily">@font/meriendaone_regular</item>
+        <item name="android:textColor">#050505</item>
+    </style>
+    <style name="Estilo_title_recycler" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/sizeTitleRecycler</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:fontFamily">@font/fondamento</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="Estilo_num_cant" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/adamina</item>
+        <item name="android:textColor">#222121</item>
+    </style>
+
+    <style name="Estilo_nombre_ingr" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/croissant_one</item>
+        <item name="android:textColor">#222121</item>
+    </style>
+
+    <style name="Estilo_title_ingredientes" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/adamina</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+</resources>

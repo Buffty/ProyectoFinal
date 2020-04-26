@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimen_imagen">150dp</dimen>
+    <dimen name="padding_linear">5dp</dimen>
+    <dimen name="elevation_card">10dp</dimen>
+    <dimen name="stroke_card">1dp</dimen>
+    <dimen name="separador">1dp</dimen>
+    <dimen name="DescIngre">2dp</dimen>
+    <dimen name="margen">40dp</dimen>
+    <dimen name="tamanyoEliminar">25sp</dimen>
+    <dimen name="tamanyoDialogo">20sp</dimen>
+    <dimen name="letraDescIngre">14sp</dimen>
+    <dimen name="sizeTitleRecycler">16sp</dimen>
+    <dimen name="letraTitleIngre">28sp</dimen>
+    <dimen name="letraTitle">35sp</dimen>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/separadorNegro">
+
+    <LinearLayout
+        android:layout_marginBottom="@dimen/separador"
+        android:layout_marginTop="@dimen/separador"
+        android:layout_marginRight="@dimen/DescIngre"
+        android:layout_marginLeft="@dimen/DescIngre"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/fondoIngredientes">
+
+        <TextView
+            android:id="@+id/txt_prueba"
+            style="@style/Estilo_num_cant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_linear"
+            android:layout_weight="55"
+            android:fontFamily="@font/brawler"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/txt_nombre_ingr"
+            style="@style/Estilo_nombre_ingr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="45"
+            android:fontFamily="@font/fauna_one"
+            android:text="TextView" />
+
+    </LinearLayout>
+</LinearLayout>

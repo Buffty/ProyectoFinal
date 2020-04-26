@@ -1,0 +1,115 @@
+<resources>
+    <string name="app_name">Hummus</string>
+    <string name="UsuarioLayout">Usuario...</string>
+    <string name="PasswordLayout">Contraseña...</string>
+    <string name="inicio">Inició de sesión</string>
+    <string name="txt_btn_Inicio">Iniciar</string>
+    <string name="btnRegistrar">Registrar</string>
+    <string name="forgetPassword">Has olvidado la contraseña?</string>
+    <string name="name_user_regis">Nombre de Usuario</string>
+    <string name="passwd_registrar">Contraseña</string>
+    <string name="txt_registrar">Registrar Usuario</string>
+    <string name="passwd_registrar_conf">Repita la contraseña</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="switch_txt">Mostrar contraseña</string>
+    <string name="add_receta">Añadir receta</string>
+    <string name="recovery_password">Recuperar Contraseña</string>
+    <string name="repeat_password">Repite contraseña</string>
+    <string name="insertPassword">Introduce la contraseña</string>
+    <string name="recupera_usuario">Introduce usuario</string>
+    <string name="txt_btn_recuperar">Recuperar</string>
+    <string name="txt_pais">Elija un país:</string>
+    <string name="correo_edit">Correo</string>
+    <string name="titulo">Titulo</string>
+    <string name="titulo_receta">Titulo: </string>
+    <string name="descripcion_receta_add">Escribe la descripción de tu receta!</string>
+    <string name="txt_spinner">Tipo:</string>
+    <string name="add_dificultades">Dificultades:</string>
+    <string name="ingredientes_add">Rellena de Ingredientes</string>
+    <string name="add_duration">Duración</string>
+    <string name="pestanya_Imagen">Global</string>
+    <string name="detall_add">Detalles</string>
+    <string name="Compartir_receta">Compartir</string>
+    <string name="dificultad_receta">Dificultad:</string>
+    <string name="tipo_receta">Tipo:</string>
+    <string name="duracion_receta">Duración:</string>
+    <string name="btn_txt_modificar">Modificar</string>
+    <string name="btn_abrir">Abrir</string>
+    <string name="add_receta_floating_button">Añadir receta</string>
+    <string name="txt_foro_floating">Foro</string>
+    <string name="txt_info_floating">Info</string>
+    <string name="txt_guardar">Guardar</string>
+    <string name="txt_siguiente">Siguiente</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="btn_add">Añadir</string>
+    <string name="ingredientes">INGREDIENTES</string>
+    <string name="txt_descr_receta">Descripción</string>
+    <string name="dial_desc_cantidad">Cantidad</string>
+    <string name="dial_desc_ingrediente">Nombre ingrediente</string>
+    <string name="txt_compartir">Compartir</string>
+    <string name="txt_configuracion_item">Configuración</string>
+    <string name="txt_change_password_item">Cambiar Contraseña</string>
+    <string name="txt_contactanos_item">Contactanos</string>
+    <string name="txt_close_session_item">Cerrar sesión</string>
+
+
+    <string-array name="tipos">
+        <item>Carne</item>
+        <item>Vegetariano</item>
+        <item>Vegano</item>
+    </string-array>
+    <string-array name="dificultades">
+        <item>Fácil</item>
+        <item>Normal</item>
+        <item>Díficil</item>
+    </string-array>
+    <string-array name="paises">
+        <item>Albania</item>
+        <item>Alemania</item>
+        <item>Andorra</item>
+        <item>Austria</item>
+        <item>Bélgica</item>
+        <item>Bielorrusia</item>
+        <item>Bosnia</item>
+        <item>Herzegovina</item>
+        <item>Bulgaria</item>
+        <item>Chequia</item>
+        <item>Chipre</item>
+        <item>Ciudad del Vaticano</item>
+        <item>Croacia</item>
+        <item>Dinamarca</item>
+        <item>Eslovaquia</item>
+        <item>Eslovenia</item>
+        <item>España</item>
+        <item>Estonia</item>
+        <item>Finlandia</item>
+        <item>Francia</item>
+        <item>Grecia</item>
+        <item>Hungría</item>
+        <item>Irlanda</item>
+        <item>Islandia</item>
+        <item>Italia</item>
+        <item>Letonia</item>
+        <item>Liechtenstein</item>
+        <item>Lituania</item>
+        <item>Luxemburgo</item>
+        <item>Macedonia</item>
+        <item>Malta</item>
+        <item>Moldavia</item>
+        <item>Mónaco</item>
+        <item>Montenegro</item>
+        <item>Noruega</item>
+        <item>Países Bajos</item>
+        <item>Polonia</item>
+        <item>Portugal</item>
+        <item>Reino Unido</item>
+        <item>Rumania</item>
+        <item>Rusia</item>
+        <item>San Marino</item>
+        <item>Serbia</item>
+        <item>Suecia</item>
+        <item>Suiza</item>
+        <item>Turquía</item>
+        <item>Ucrania</item>
+    </string-array>
+</resources>
