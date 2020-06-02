@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,10 @@ import androidx.fragment.app.Fragment;
 import com.example.proyecto_final_android_2019_20.R;
 import com.example.proyecto_final_android_2019_20.activities.Login;
 import com.example.proyecto_final_android_2019_20.activities.ventanaPrincipal;
-import com.example.proyecto_final_android_2019_20.clases.Recetas;
-import com.example.proyecto_final_android_2019_20.clases.Utilidades;
+import com.example.proyecto_final_android_2019_20.entities.Recetas;
+import com.example.proyecto_final_android_2019_20.entities.Utility.Utilidades;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -101,7 +103,10 @@ public class AnyadirFragment extends Fragment implements View.OnClickListener{
                     spinner_type.setSelection(i);
                 }
             }
-            cambiarImagen.setImageResource(receta.getImagen());
+            byte[] decodedString = Base64.decode(receta.getImagen(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            cambiarImagen.setImageBitmap(decodedByte);
+
             cambiarImagen.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
 
@@ -190,18 +195,65 @@ public class AnyadirFragment extends Fragment implements View.OnClickListener{
     }
 
     public Recetas getDatos(){
-        if(receta==null) {
-            Recetas nueva = new Recetas(Login.listaUsuarios.get(ventanaPrincipal.posicion).getListaRecetas().size() + 1,
-                    Login.listaUsuarios.get(ventanaPrincipal.posicion).getNombre(),
-                    cont_titulo_nueva_receta.getText().toString(),
-                    cont_descrip_receta.getText().toString(),
-                    R.drawable.hummus,
-                    spinner_type.getSelectedItem().toString(),
-                    spinner_difficulty.getSelectedItem().toString(),
-                    cont_duracion_nueva_receta.getText().toString());
-            return nueva;
-        }else{
-            return receta;
+        Recetas nueva;
+        String fotoEnBase64="";
+        try {
+            if (receta == null) {
+
+                try {
+                    Bitmap bm = BitmapFactory.decodeFile(uri);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
+                    byte[] b = baos.toByteArray();
+                    fotoEnBase64 = Base64.encodeToString(b, Base64.DEFAULT);
+                }catch (NullPointerException ex){
+                    Bitmap bm = BitmapFactory.decodeResource(this.getResources(),R.drawable.hummus);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
+                    byte[] b = baos.toByteArray();
+                    fotoEnBase64 = Base64.encodeToString(b, Base64.DEFAULT);
+                }
+                nueva = new Recetas(0,
+                        Login.listaUsuarios.get(ventanaPrincipal.posicion).getNombre(),
+                        cont_titulo_nueva_receta.getText().toString(),
+                        cont_descrip_receta.getText().toString(),
+                        fotoEnBase64,
+                        spinner_type.getSelectedItem().toString(),
+                        spinner_difficulty.getSelectedItem().toString(),
+                        cont_duracion_nueva_receta.getText().toString());
+                return nueva;
+            } else {
+                try {
+                    Bitmap bm = BitmapFactory.decodeFile(uri);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
+                    byte[] b = baos.toByteArray();
+                    fotoEnBase64 = Base64.encodeToString(b, Base64.DEFAULT);
+                    nueva = new Recetas(receta.getId(),
+                            receta.getNameUser(),
+                            cont_titulo_nueva_receta.getText().toString(),
+                            cont_descrip_receta.getText().toString(),
+                            fotoEnBase64,
+                            spinner_type.getSelectedItem().toString(),
+                            spinner_difficulty.getSelectedItem().toString(),
+                            cont_duracion_nueva_receta.getText().toString());
+                    nueva.setListaIngredientes(receta.getListaIngredientes());
+                    return nueva;
+                }catch (NullPointerException ex){
+                    nueva = new Recetas(receta.getId(),
+                            receta.getNameUser(),
+                            cont_titulo_nueva_receta.getText().toString(),
+                            cont_descrip_receta.getText().toString(),
+                            receta.getImagen(),
+                            spinner_type.getSelectedItem().toString(),
+                            spinner_difficulty.getSelectedItem().toString(),
+                            cont_duracion_nueva_receta.getText().toString());
+                    nueva.setListaIngredientes(receta.getListaIngredientes());
+                }
+                return nueva;
+            }
+        }finally {
+            nueva = null;
         }
     }
 

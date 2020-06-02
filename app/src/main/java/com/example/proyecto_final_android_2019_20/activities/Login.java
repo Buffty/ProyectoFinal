@@ -1,40 +1,30 @@
 package com.example.proyecto_final_android_2019_20.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
-import android.view.PointerIcon;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyecto_final_android_2019_20.ASyncTask.ConectarServidores;
 import com.example.proyecto_final_android_2019_20.Dialogs.DialLogin;
-import com.example.proyecto_final_android_2019_20.Dialogs.IngreDialFragment;
 import com.example.proyecto_final_android_2019_20.R;
-import com.example.proyecto_final_android_2019_20.clases.Usuarios;
+import com.example.proyecto_final_android_2019_20.entities.Usuarios;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class Login extends AppCompatActivity implements View.OnClickListener, DialLogin.OnDialLogin{
 
@@ -43,24 +33,21 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Di
     EditText usuario,password;
     Switch mostrar_passwd;
     Bundle retorno = new Bundle();
-    public static ConectarServidores conectar;
+
+    public static String[] paises;
+    public static String[] id;
+    public static List<HashMap<String,Object>> listaPaises;
     public static ArrayList<Usuarios> listaUsuarios = new ArrayList<Usuarios>();
-    public static FirebaseDatabase firebase = FirebaseDatabase.getInstance();
-    public static DatabaseReference usuarioDatabase;
-    public static DatabaseReference recetasDatabase;
-    public static DatabaseReference ingredientesDatabase;
-    private ValueEventListener value;
-    private static final String TAG = "ERROR";
+
+    private ConectarServidores conectar;
     private boolean nuevo_login=true;
     private SharedPreferences pref;
     private DialLogin dial;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        usuarioDatabase = firebase.getReference("Usuarios");
         pref = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         nuevo_login = pref.getBoolean("login", true);
 
@@ -69,8 +56,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Di
             dial.show(getSupportFragmentManager(), null);
             dial.setCancelable(false);
         }
-        conectar = new ConectarServidores(this);
-        conectar.execute(true);
+
+        Resources res = this.getBaseContext().getResources();
+        paises = res.getStringArray(R.array.paises);
+        id = res.getStringArray(R.array.id_paises);
 
         // INICIAR VARIABLES
 
@@ -84,38 +73,48 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Di
         // PONER ESCUCHAS
 
         mostrar_passwd.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (b) {
-                        password.setInputType(InputType.TYPE_CLASS_TEXT);
-                    } else {
-                        password.setInputType(129);
-                    }
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    password.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else {
+                    password.setInputType(129);
                 }
+            }
         });
+
         inicio.setOnClickListener(this);
         registrar.setOnClickListener(this);
         textoOlvidado.setOnClickListener(this);
 
-        usuarioDatabase.onDisconnect().cancel(new DatabaseReference.CompletionListener(){
+        this.conectar = new ConectarServidores(this);
 
-            @Override
-            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                if (!nuevo_login) {
-                    dial.dismiss();
-                    retorno.putInt("Posicion", pref.getInt("posicion",-1));
-                    Intent intent = new Intent(Login.this, ventanaPrincipal.class);
-                    intent.putExtras(retorno);
-                    startActivity(intent);
+        while(true) {
+            try {
+                if (conectar.execute().get()) {
+                    if(!nuevo_login) {
+                        dial.dismiss();
+                        retorno.putInt("Posicion", pref.getInt("posicion", -1));
+                        Intent intent = new Intent(Login.this, ventanaPrincipal.class);
+                        intent.putExtras(retorno);
+                        startActivity(intent);
+                    }
+                    break;
                 }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        });
+
+        }
+
     }
 
     @Override
     protected void onPause() {
-        if(conectar!=null){
-            conectar.cancel(true);
+        if(this.conectar!=null){
+            this.conectar.cancel(true);
         }
         super.onPause();
     }
@@ -129,15 +128,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Di
         super.onDestroy();
     }
 
+
+
     @Override
     public void onClick(View view) {
         Intent intent= null;
         switch(view.getId()){
             case R.id.botonInicio:
+                dial = new DialLogin(this);
+                dial.show(getSupportFragmentManager(), null);
+                dial.setCancelable(false);
                 String usu, passw;
                 usu = usuario.getText().toString();
                 passw = password.getText().toString();
-                int posicion = encontrarUsuario(new Usuarios(usu, "", passw, ""));
+                int posicion = encontrarUsuario(new Usuarios(0,usu, "", passw, ""));
                 if (posicion != -1) {
                     SharedPreferences pref = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
                     SharedPreferences.Editor prefsEditor = pref.edit();
@@ -150,8 +154,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Di
                     retorno.putInt("Posicion", posicion);
                     intent = new Intent(Login.this, ventanaPrincipal.class);
                     intent.putExtras(retorno);
-                } else
+                } else {
                     usuario.setError("Los datos pasados no son los correctos.");
+                    dial.dismiss();
+                }
                 break;
             case R.id.botonRegistrar:
                 intent = new Intent(Login.this,registrarUsuario.class);

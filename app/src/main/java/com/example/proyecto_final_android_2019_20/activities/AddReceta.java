@@ -5,13 +5,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.location.Address;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.proyecto_final_android_2019_20.ASyncTask.CargarListaIngredientes;
+import com.example.proyecto_final_android_2019_20.ASyncTask.CargarListaRecetas;
+import com.example.proyecto_final_android_2019_20.ASyncTask.CreateInServer;
 import com.example.proyecto_final_android_2019_20.R;
-import com.example.proyecto_final_android_2019_20.clases.Ingredientes;
-import com.example.proyecto_final_android_2019_20.clases.Recetas;
+import com.example.proyecto_final_android_2019_20.entities.Ingredientes;
+import com.example.proyecto_final_android_2019_20.entities.Recetas;
 import com.example.proyecto_final_android_2019_20.fragments.AnyadirFragment;
 import com.example.proyecto_final_android_2019_20.fragments.CompartirFragment;
 import com.example.proyecto_final_android_2019_20.fragments.DetallesFragment;
@@ -20,6 +22,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class AddReceta extends AppCompatActivity implements View.OnClickListener{
 
@@ -29,9 +32,9 @@ public class AddReceta extends AppCompatActivity implements View.OnClickListener
     private Bundle retorno = new Bundle();
     MaterialButton btn_modify;
     int contador=0;
-    Boolean nuevo = false;
+    public static Boolean nuevo = false;
     public static Boolean modificar=false;
-    Recetas receta;
+    public static Recetas receta;
     AnyadirFragment addFragment;
     ModificarFragment modFragment;
     DetallesFragment detallesFragment;
@@ -55,8 +58,19 @@ public class AddReceta extends AppCompatActivity implements View.OnClickListener
         // SE COMPRUEBA SI HA SIDO PULSADO EL BOTÓN DE AÑADIR O EL DE MODIFICAR, PASANDO UNA RECETA O NO
 
         if(receta!=null) {
+            CargarListaIngredientes cargarListaIngredientes = new CargarListaIngredientes();
+            while(true){
+                try {
+                    if(cargarListaIngredientes.execute().get()) break;
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             modFragment = ModificarFragment.newInstance(receta);
             transaction.replace(R.id.layout_fragment,modFragment).addToBackStack(null).commit();
+            modificar = true;
         }else{
             nuevo=true;
             addFragment = new AnyadirFragment();
@@ -90,12 +104,17 @@ public class AddReceta extends AppCompatActivity implements View.OnClickListener
                     contador=0;
                 }else if(tab_layout.getSelectedTabPosition()==1){
                     transaction.hide(comprobarFragment());
-                    if(detallesFragment== null){
+                    if(detallesFragment == null){
                         if(modificar){
-                            detallesFragment = DetallesFragment.newInstance(receta);
-                            btn_modify.setText(R.string.txt_guardar);
+                            if(addFragment != null) {
+                                detallesFragment = DetallesFragment.newInstance(addFragment.getDatos());
+                                btn_modify.setText(R.string.txt_guardar);
+                            }else{
+                                detallesFragment = DetallesFragment.newInstance(modFragment.devolverReceta());
+                                btn_modify.setText(R.string.btn_txt_modificar);
+                            }
                         }else{
-                            detallesFragment = DetallesFragment.newInstance(receta);
+                            detallesFragment = DetallesFragment.newInstance(addFragment.getDatos());
                             btn_modify.setText(R.string.txt_guardar);
                         }
                         detallesFragment.setSupportFragment(getSupportFragmentManager());
@@ -192,9 +211,10 @@ public class AddReceta extends AppCompatActivity implements View.OnClickListener
                         transaction.replace(R.id.layout_fragment, addFragment).commit();
                         btn_modify.setText(R.string.txt_siguiente);
                         detallesFragment=null;
-                        modificar = true;
                         contador=0;
+                        modificar = true;
                     }
+
 
                 // SECCIÓN SIGUIENTE
 
@@ -233,20 +253,31 @@ public class AddReceta extends AppCompatActivity implements View.OnClickListener
                         for(int i = 0 ; i < Login.listaUsuarios.get(ventanaPrincipal.posicion).getListaRecetas().size();i++){
                             if(Login.listaUsuarios.get(ventanaPrincipal.posicion).getListaRecetas().get(i).getId()==detallesFragment.getReceta().getId()){
                                 Login.listaUsuarios.get(ventanaPrincipal.posicion).getListaRecetas().set(i,detallesFragment.getReceta());
+                                cargarCreateInServer("Modificar");
                             }
                         }
                     }else {
-                        Recetas nuevaReceta = addFragment.getDatos();
-                        for (int i = 0; i < AddReceta.listaIngredientes.size(); i++) {
-                            listaIngredientes.get(i).setId_receta(nuevaReceta.getId());
-                        }
-                        Login.ingredientesDatabase.setValue(listaIngredientes);
-                        Login.listaUsuarios.get(ventanaPrincipal.posicion).addRecetas(nuevaReceta);
-                        Login.recetasDatabase.setValue(Login.listaUsuarios.get(ventanaPrincipal.posicion).getListaRecetas());
+                        receta = detallesFragment.getReceta();
+                        Login.listaUsuarios.get(ventanaPrincipal.posicion).addRecetas(receta);
+                        cargarCreateInServer("Guardar");
                     }
                     this.finish();
                 }
                 break;
+        }
+    }
+    public static void cargarCreateInServer(String frase){
+        CreateInServer createInServer = new CreateInServer();
+        try{
+            while(true){
+                if(createInServer.execute(frase).get()) break;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }finally {
+            createInServer = null;
         }
     }
 }

@@ -1,16 +1,5 @@
 package com.example.proyecto_final_android_2019_20.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -20,39 +9,45 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.example.proyecto_final_android_2019_20.ASyncTask.BorrarListaRecetas;
+import com.example.proyecto_final_android_2019_20.ASyncTask.CargarListaRecetas;
 import com.example.proyecto_final_android_2019_20.R;
-import com.example.proyecto_final_android_2019_20.clases.Ingredientes;
-import com.example.proyecto_final_android_2019_20.clases.Recetas;
 import com.example.proyecto_final_android_2019_20.adapters.AdaptorRecetas;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public class ventanaPrincipal extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener{
 
-    private MaterialButton material_abrir;
     public static int posicion;
+
+    private MaterialButton material_abrir;
+    private CargarListaRecetas cargarListaRecetas;
     private Bundle retorno = new Bundle();
     private FloatingActionButton botonAdd,botonAcercaDe,botonForo,botonPerfil;
     private RecyclerView recyclerView;
@@ -73,8 +68,7 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ventana_principal);
-        Login.recetasDatabase = Login.firebase.getReference("Recetas");
-        Login.ingredientesDatabase = Login.firebase.getReference("Ingredientes");
+
         if(this.getIntent().getExtras()!=null){
             retorno = this.getIntent().getExtras();
             posicion = (Integer) retorno.getInt("Posicion");
@@ -98,8 +92,18 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
         recyclerView = (RecyclerView) findViewById(R.id.recycler_recetas);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
 
-        cargarDatos();
+        cargarListaRecetas = new CargarListaRecetas();
+        while(true){
+            try {
+                if (cargarListaRecetas.execute().get()) break;
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
+        }
+        cargarDatos();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -124,8 +128,17 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 switch(direction){
                     case ItemTouchHelper.RIGHT:
+                        BorrarListaRecetas borrarListaRecetas = new BorrarListaRecetas();
+                        while(true) {
+                            try {
+                                if(borrarListaRecetas.execute(Login.listaUsuarios.get(posicion).getListaRecetas().get(viewHolder.getAdapterPosition())).get()) break;
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         Login.listaUsuarios.get(posicion).getListaRecetas().remove(viewHolder.getAdapterPosition());
-                        Login.recetasDatabase.setValue(Login.listaUsuarios.get(posicion).getListaRecetas());
                         adaptador.notifyItemRemoved(viewHolder.getAdapterPosition());
                         break;
                     case ItemTouchHelper.LEFT:
@@ -167,8 +180,6 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
 
         /*********************************************************/
 
-
-
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(myCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
         botonPerfil.setOnClickListener(this);
@@ -176,71 +187,6 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
         navigator.setNavigationItemSelectedListener(this);
         imagenUsuario.setOnClickListener(this);
 
-    }
-
-
-    // RELLENAMOS EL ARRAY DE CADA USUARIO SU RECETA
-
-    protected void rellenarRecetas() {
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                // RECORRERÁ TODOS LOS USUARIOS DE LA BASE DA DATOS Y LOS AÑADIRÁ A LA LISTA DE USUARIOS
-
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
-                    if(Login.listaUsuarios.get(posicion).getNombre().equals(postSnapshot.getValue(Recetas.class).getNombreUsuarios()))
-                        if(comprobarRecetaListaUsuario(postSnapshot.getValue(Recetas.class)))
-                            Login.listaUsuarios.get(posicion).getListaRecetas().add(postSnapshot.getValue(Recetas.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                // [START_EXCLUDE]
-                Toast.makeText(ventanaPrincipal.this, "Failed to load post.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        };
-        Login.recetasDatabase.addValueEventListener(postListener);
-    }
-
-    /***** RELLENAMOS LOS INGREDIENTES **/
-
-    protected void rellenarIngredientes() {
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                // RECORRERÁ TODOS LOS USUARIOS DE LA BASE DA DATOS Y LOS AÑADIRÁ A LA LISTA DE USUARIOS
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
-                    for( int i = 0; i < Login.listaUsuarios.get(posicion).getListaRecetas().size();i++){
-                        if(Login.listaUsuarios.get(posicion).getListaRecetas().get(i).getId()==postSnapshot.getValue(Ingredientes.class).getId_receta()){
-                            Login.listaUsuarios.get(posicion).getListaRecetas().get(i).getListaIngredientes().add(postSnapshot.getValue(Ingredientes.class));
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                // [START_EXCLUDE]
-                Toast.makeText(ventanaPrincipal.this, "Failed to load post.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        };
-        Login.ingredientesDatabase.addValueEventListener(postListener);
-    }
-
-    public boolean comprobarRecetaListaUsuario(Recetas receta){
-        for (Recetas rec : Login.listaUsuarios.get(posicion).getListaRecetas()){
-            if(rec.getId()==receta.getId()){
-                return false;
-            }
-        }
-        return true;
     }
 
     @Override
@@ -260,8 +206,6 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
     }
 
     public void cargarDatos(){
-        rellenarRecetas();
-        rellenarIngredientes();
 
         /* CARGAMOS LOS DATOS DEL ADAPTADOR*/
 
@@ -290,8 +234,6 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
     }
-
-    // NO SÉ EL QUE FA, HI HA QUE REVISAR-HO
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -333,8 +275,6 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
         else
             scaleFactor = Math.min(photoW/targetW, photoH/targetH);
 
-        System.out.println("Hola");
-
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = scaleFactor;
@@ -362,10 +302,9 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        Bundle bundle;
         switch (view.getId()){
             case R.id.btn_add:
-                    bundle = new Bundle();
+                    AddReceta.receta = null;
                     Intent intent = new Intent(ventanaPrincipal.this,AddReceta.class);
                     startActivity(intent);
                 break;

@@ -1,7 +1,5 @@
 package com.example.proyecto_final_android_2019_20.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -9,16 +7,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.proyecto_final_android_2019_20.ASyncTask.CreateInServer;
 import com.example.proyecto_final_android_2019_20.R;
-import com.example.proyecto_final_android_2019_20.clases.Usuarios;
+import com.example.proyecto_final_android_2019_20.entities.Usuarios;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -27,19 +25,14 @@ public class registrarUsuario extends AppCompatActivity implements View.OnClickL
     TextInputEditText usuario,password,confirmar_password,correo;
     TextInputLayout lay_usu,lay_password,lay_conf_passwd,lay_correo;
     MaterialButton register;
+    CreateInServer createInServer;
     Spinner pais;
     Bundle retorno = new Bundle();
 
-    String[] paises;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_usuario);
-        Resources res = this.getBaseContext().getResources();
-
-        // RELLENAMOS EL SPINNER CON LOS PAISES
-
-        paises = res.getStringArray(R.array.paises);
 
         // INICIAMOS LAS VARIABLES
 
@@ -60,7 +53,7 @@ public class registrarUsuario extends AppCompatActivity implements View.OnClickL
         // ADAPTAMOS EL SPINNER CON UN ESTILO CUSTOM
 
         ArrayAdapter<String> spinnerHead=new ArrayAdapter<String>(this,
-                R.layout.spinner_estilo,paises);
+                R.layout.spinner_estilo,Login.paises);
         spinnerHead.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pais.setAdapter(spinnerHead);
 
@@ -103,8 +96,6 @@ public class registrarUsuario extends AppCompatActivity implements View.OnClickL
                 lay_conf_passwd.setEndIconVisible(true);
             }
         });
-
-
         // PARA VALIDAR QUE EL CORREO ES EL CORRECTO
         // if(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
 
@@ -125,7 +116,7 @@ public class registrarUsuario extends AppCompatActivity implements View.OnClickL
             if(!user.getNombre().isEmpty() && !user.getPassword().isEmpty() && !user.getEmail().isEmpty()){
                 if(comprobarUsuario(user)) {
                     Login.listaUsuarios.add(user);
-                    Login.usuarioDatabase.setValue(Login.listaUsuarios);
+                    AddReceta.cargarCreateInServer("Crear Usuario");
                     Intent intent = new Intent(registrarUsuario.this, Login.class);
                     startActivity(intent);
                 }else{
@@ -143,14 +134,22 @@ public class registrarUsuario extends AppCompatActivity implements View.OnClickL
         }
         return true;
     }
+    public int sacarMaximoUsuario(){
+        int maximo = 0;
+        for (Usuarios usuarios : Login.listaUsuarios){
+            if(maximo<usuarios.getId())
+                maximo = usuario.getId();
+        }
+        return maximo;
+    }
 
     public Usuarios crearUsuario(){
         String nombre, contrasenya, email,txtPais;
         nombre = usuario.getText().toString();
         contrasenya = password.getText().toString();
         email = correo.getText().toString();
-        txtPais = paises[pais.getSelectedItemPosition()];
+        txtPais = Login.paises[pais.getSelectedItemPosition()];
 
-        return new Usuarios(nombre,email,contrasenya,txtPais);
+        return new Usuarios(sacarMaximoUsuario()+1,nombre,email,contrasenya,txtPais);
     }
 }

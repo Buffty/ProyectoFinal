@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_final_android_2019_20.R;
-import com.example.proyecto_final_android_2019_20.clases.Ingredientes;
+import com.example.proyecto_final_android_2019_20.entities.Ingredientes;
 
 public class IngredientesViewHolder extends RecyclerView.ViewHolder{
 

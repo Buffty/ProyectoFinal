@@ -4,10 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Html;
+import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -16,17 +15,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_final_android_2019_20.R;
 import com.example.proyecto_final_android_2019_20.activities.AddReceta;
-import com.example.proyecto_final_android_2019_20.clases.ExpandAndCollapseViewUtil;
-import com.example.proyecto_final_android_2019_20.clases.Recetas;
+import com.example.proyecto_final_android_2019_20.entities.Utility.ExpandAndCollapseViewUtil;
+import com.example.proyecto_final_android_2019_20.entities.Recetas;
 import com.google.android.material.button.MaterialButton;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 
 public class RecetasViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -37,9 +32,7 @@ public class RecetasViewHolder extends RecyclerView.ViewHolder implements View.O
     private Context contexto;
     private static final int DURATION = 250;
     private ViewGroup linearLayoutDetails;
-    private LinearLayout princi;
     private ImageView imageViewExpand;
-    private boolean expandido;
     private Animation animation;
     private Recetas receta;
     private Bundle bundle = new Bundle();
@@ -48,7 +41,6 @@ public class RecetasViewHolder extends RecyclerView.ViewHolder implements View.O
     public RecetasViewHolder(View itemView, Context context){
 
         super(itemView);
-        expandido = false;
         titulo = (TextView) itemView.findViewById(R.id.titulo_recycler);
         dificultad = (TextView) itemView.findViewById(R.id.dificultad_recycler);
         conten_dificultad = (TextView) itemView.findViewById(R.id.txt_cont_dificultad);
@@ -59,17 +51,14 @@ public class RecetasViewHolder extends RecyclerView.ViewHolder implements View.O
         txttipo = (TextView) itemView.findViewById(R.id.txt_tipo);
         linearLayoutDetails = (LinearLayout) itemView.findViewById(R.id.layout_detalle);
         imageViewExpand = (ImageView) itemView.findViewById(R.id.imagen_expandir);
-        princi = (LinearLayout) itemView.findViewById(R.id.principal);
         material_abrir = (MaterialButton) itemView.findViewById(R.id.btn_abrir);
-
-
-        imagen.setScaleType(ImageView.ScaleType.CENTER_CROP);
         contexto = context;
 
         material_abrir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 intent = new Intent(contexto.getApplicationContext(),AddReceta.class);
+                receta.setImagen("");
                 bundle.putSerializable("Receta",receta);
                 intent.putExtras(bundle);
                 contexto.startActivity(intent);
@@ -81,15 +70,22 @@ public class RecetasViewHolder extends RecyclerView.ViewHolder implements View.O
 
     public void bindRecetas(Recetas r){
         receta = r;
-        titulo.setText(Html.fromHtml(r.nombre));
+        titulo.setText(Html.fromHtml(r.getNombre()));
         dificultad.setText("Dificultad:");
-        conten_dificultad.setText(r.dificultad);
-        imagen.setImageResource(r.getImagen());
+        conten_dificultad.setText(r.getDificultad());
+        /**
+         * PASAMOS EL CÓDIGO DE BASE 64 A IMAGE VIEW
+         */
+
+        byte[] decodedString = Base64.decode(r.getImagen(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        imagen.setImageBitmap(decodedByte);
+
         imagen.setScaleType(ImageView.ScaleType.CENTER_CROP);
         txtduracion.setText("Duracion:");
         txttipo.setText("Tipo:");
-        cont_duracion.setText(r.duracion+" minutos");
-        cont_tipo.setText(r.tipo);
+        cont_duracion.setText(r.getDuracion());
+        cont_tipo.setText(r.getTipo());
 
     }
 

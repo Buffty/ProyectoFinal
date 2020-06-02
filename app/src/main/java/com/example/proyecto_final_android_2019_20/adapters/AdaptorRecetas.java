@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_final_android_2019_20.R;
-import com.example.proyecto_final_android_2019_20.clases.Recetas;
+import com.example.proyecto_final_android_2019_20.entities.Recetas;
 import com.example.proyecto_final_android_2019_20.viewHolders.RecetasViewHolder;
 
 import java.util.ArrayList;
@@ -17,9 +17,7 @@ import java.util.ArrayList;
 public class AdaptorRecetas extends RecyclerView.Adapter<RecetasViewHolder>{
 
     private ArrayList<Recetas> listaRecetas;
-    private int posicion;
     private Context contexto;
-    private View.OnClickListener listener;
 
     public AdaptorRecetas(Context context, ArrayList<Recetas> recetas){
         this.contexto=context;

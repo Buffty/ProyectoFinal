@@ -1,6 +1,4 @@
-package com.example.proyecto_final_android_2019_20.clases;
-
-import android.media.Ringtone;
+package com.example.proyecto_final_android_2019_20.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,31 +6,29 @@ import java.util.ArrayList;
 public class Recetas implements Serializable {
 
     public String nombre, descripcion, tipo,dificultad;
-    public String nombreUsuarios,duracion;
+    public String duracion, imagen, nameUser;
     public int id;
     public ArrayList<Ingredientes> listaIngredientes = new ArrayList<Ingredientes>();
-
-    int imagen;
-
     public Recetas() {
     }
 
-    public Recetas(int id, String nombreUsu, String nombre, String descripcion, int imagen, String tipo,String dificultad, String duracion) {
+    public Recetas(int id, String nameUser, String nombre, String descripcion, String imagen, String tipo,String dificultad, String duracion) {
         this.id = id;
-        this.nombreUsuarios = nombreUsu;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen= imagen;
         this.tipo=tipo;
         this.duracion=duracion;
         this.dificultad=dificultad;
-    }
-    public String getNombreUsuarios() {
-        return nombreUsuarios;
+        this.nameUser=nameUser;
     }
 
-    public void setNombreUsuarios(String nombreUsuarios) {
-        this.nombreUsuarios = nombreUsuarios;
+    public String getNameUser() {
+        return nameUser;
+    }
+
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
     }
 
     public int getId() {
@@ -67,11 +63,11 @@ public class Recetas implements Serializable {
         this.tipo = tipo;
     }
 
-    public int getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(int imagen) {
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
 

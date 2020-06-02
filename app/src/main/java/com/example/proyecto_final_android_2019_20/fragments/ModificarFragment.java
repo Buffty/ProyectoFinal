@@ -1,7 +1,10 @@
 package com.example.proyecto_final_android_2019_20.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.proyecto_final_android_2019_20.R;
-import com.example.proyecto_final_android_2019_20.clases.Recetas;
+import com.example.proyecto_final_android_2019_20.entities.Recetas;
 
 
 public class ModificarFragment extends Fragment implements View.OnClickListener{
@@ -44,7 +47,11 @@ public class ModificarFragment extends Fragment implements View.OnClickListener{
         cont_type_receta.setText(receta.getTipo());
         duracion_de_la_receta.setText(""+receta.getDuracion());
         cont_descripcion.setText(receta.getDescripcion());
-        imagen.setImageResource(receta.getImagen());
+
+        byte[] decodedString = Base64.decode(receta.getImagen(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        imagen.setImageBitmap(decodedByte);
         imagen.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         return vistaLayout;

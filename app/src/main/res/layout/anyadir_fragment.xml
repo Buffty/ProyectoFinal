@@ -36,10 +36,9 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -49,204 +48,213 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="70"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/txt_titulo_receta"
-                            style="@style/Estilo_Descripcion_Receta"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/titulo_receta" />
+                            android:layout_weight="70"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txt_titulo_receta"
+                                style="@style/Estilo_Descripcion_Receta"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/titulo_receta" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:orientation="vertical">
+
+
+                            <EditText
+                                android:id="@+id/edit_cont_title_nuevo"
+                                style="@style/Estilo_Add_Receta"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/separador_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separador"
+                        android:background="@color/separadorBlanco"
+                        android:orientation="vertical" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="30"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="70"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txt_dificultad_receta"
+                                style="@style/Estilo_Descripcion_Receta"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dificultad_receta" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:orientation="vertical">
+
+
+                            <Spinner
+                                android:id="@+id/spinner_dificultad"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/separador_title1"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separador"
+                        android:background="@color/separadorBlanco"
+                        android:orientation="vertical" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="70"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txt_tipo_receta"
+                                style="@style/Estilo_Descripcion_Receta"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tipo_receta" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:orientation="vertical">
+
+
+                            <Spinner
+                                android:id="@+id/spinner_tipo"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/separador_title2"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separador"
+                        android:background="@color/separadorBlanco"
+                        android:orientation="vertical" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="35"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="70"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txt_duration_receta"
+                                style="@style/Estilo_Descripcion_Receta"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/duracion_receta" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:orientation="vertical">
+
+
+                            <EditText
+                                android:id="@+id/edit_cont_duracion_nuevo"
+                                style="@style/Estilo_Add_Receta"
+                                android:layout_width="match_parent"
+                                android:layout_height="44dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/separador_title4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/separadorBlanco"
+                        android:orientation="vertical" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+                        <LinearLayout
+                            android:id="@+id/separador_descripcion"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/separadorBlanco"
+                            android:orientation="vertical" />
 
+                        <TextView
+                            android:id="@+id/txt_descr"
+                            style="@style/Estilo_Descripcion_Receta"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/txt_descr_receta"
+                            android:textSize="22sp"
+                            android:textStyle="italic" />
 
                         <EditText
-                            android:id="@+id/edit_cont_title_nuevo"
+                            android:id="@+id/edit_proba"
                             style="@style/Estilo_Add_Receta"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/separador_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/separador"
-                    android:background="@color/separadorBlanco"
-                    android:orientation="vertical" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="70"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txt_dificultad_receta"
-                            style="@style/Estilo_Descripcion_Receta"
-                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/dificultad_receta" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="30"
-                        android:orientation="vertical">
-
-
-
-
-                        <Spinner
-                            android:id="@+id/spinner_dificultad"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp" />
+                            android:ems="10"
+                            android:gravity="start|top"
+                            android:inputType="textMultiLine" />
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/separador_title1"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/separador"
-                    android:background="@color/separadorBlanco"
-                    android:orientation="vertical" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="70"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txt_tipo_receta"
-                            style="@style/Estilo_Descripcion_Receta"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tipo_receta" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="30"
-                        android:orientation="vertical">
-
-
-
-                        <Spinner
-                            android:id="@+id/spinner_tipo"
-
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/separador_title2"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/separador"
-                    android:background="@color/separadorBlanco"
-                    android:orientation="vertical" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="35"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="70"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txt_duration_receta"
-                            style="@style/Estilo_Descripcion_Receta"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/duracion_receta" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="30"
-                        android:orientation="vertical">
-
-
-
-                        <EditText
-                            android:id="@+id/edit_cont_duracion_nuevo"
-                            style="@style/Estilo_Add_Receta"
-                            android:layout_width="match_parent"
-                            android:layout_height="44dp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/separador_title4"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/separador"
-                    android:background="@color/separadorBlanco"
-                    android:orientation="vertical" />
             </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/txt_descr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Estilo_Descripcion_Receta"
-            android:textSize="22sp"
-            android:gravity="center"
-            android:textStyle="italic"
-            android:text="@string/txt_descr_receta" />
-
-        <LinearLayout
-            android:id="@+id/separador_descripcion"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/separadorBlanco"
-            android:orientation="vertical" />
-
-        <EditText
-            android:id="@+id/edit_proba"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Estilo_Add_Receta"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine" />
+        </ScrollView>
 
 
     </LinearLayout>

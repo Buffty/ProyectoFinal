@@ -1,4 +1,4 @@
-package com.example.proyecto_final_android_2019_20.clases;
+package com.example.proyecto_final_android_2019_20.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,17 +6,21 @@ import java.util.ArrayList;
 public class Usuarios implements Serializable {
     String nombre, email, password,pais;
     ArrayList<Recetas> listaRecetas;
+    int id;
+    boolean app;
 
     public Usuarios(){
             listaRecetas = new ArrayList<Recetas>();
     }
 
-    public Usuarios(String nombre, String email, String password, String pais) {
+    public Usuarios(int id, String nombre, String email, String password, String pais) {
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.pais=pais;
         this.listaRecetas = new ArrayList<Recetas>();
+        this.id = id;
+        app = true;
     }
 
     public void addRecetas(Recetas receta){
@@ -38,6 +42,16 @@ public class Usuarios implements Serializable {
         }
         return false;
     }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     public String getPais() {
         return pais;
@@ -77,5 +91,13 @@ public class Usuarios implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isApp() {
+        return app;
+    }
+
+    public void setApp(boolean app) {
+        this.app = app;
     }
 }

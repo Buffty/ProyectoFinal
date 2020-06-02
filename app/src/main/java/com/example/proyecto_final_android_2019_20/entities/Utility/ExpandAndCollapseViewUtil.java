@@ -1,4 +1,4 @@
-package com.example.proyecto_final_android_2019_20.clases;
+package com.example.proyecto_final_android_2019_20.entities.Utility;
 
 import android.util.Log;
 import android.view.View;

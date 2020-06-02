@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_final_android_2019_20.R;
-import com.example.proyecto_final_android_2019_20.clases.Ingredientes;
+import com.example.proyecto_final_android_2019_20.entities.Ingredientes;
 import com.example.proyecto_final_android_2019_20.viewHolders.IngredientesViewHolder;
 
 import java.util.ArrayList;

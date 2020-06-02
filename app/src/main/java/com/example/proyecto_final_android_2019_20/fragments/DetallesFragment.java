@@ -1,5 +1,10 @@
 package com.example.proyecto_final_android_2019_20.fragments;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -16,9 +22,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.proyecto_final_android_2019_20.Dialogs.IngreDialFragment;
 import com.example.proyecto_final_android_2019_20.R;
 import com.example.proyecto_final_android_2019_20.activities.AddReceta;
+import com.example.proyecto_final_android_2019_20.activities.Login;
+import com.example.proyecto_final_android_2019_20.activities.ventanaPrincipal;
 import com.example.proyecto_final_android_2019_20.adapters.AdaptadorIngredientes;
-import com.example.proyecto_final_android_2019_20.clases.Ingredientes;
-import com.example.proyecto_final_android_2019_20.clases.Recetas;
+import com.example.proyecto_final_android_2019_20.entities.Ingredientes;
+import com.example.proyecto_final_android_2019_20.entities.Recetas;
 import com.google.android.material.button.MaterialButton;
 
 public class DetallesFragment extends Fragment implements View.OnClickListener, IngreDialFragment.OnIngreListener{
@@ -47,7 +55,7 @@ public class DetallesFragment extends Fragment implements View.OnClickListener, 
         // RELLENAMOS EL ADAPTADOR
         if(receta!=null) {
             adaptador = new AdaptadorIngredientes(vistaLayout.getContext(), receta.getListaIngredientes());
-            if(!AddReceta.modificar)
+            if(!AddReceta.modificar && !AddReceta.nuevo)
                 btn_menu.setVisibility(View.INVISIBLE);
             else
                 btn_menu.setVisibility(View.VISIBLE);
@@ -60,6 +68,64 @@ public class DetallesFragment extends Fragment implements View.OnClickListener, 
         recyclerView.setLayoutManager(layoutManager);
 
 
+        // PARA CUANDO DESPLAZAMOS CON EL DEDO A LA DERECHA DEL RECYCLER VIEW SE ELIMINE, SOLO TENEMOS LA OPCIÓN DE LA DERECHA
+
+        final ItemTouchHelper.SimpleCallback myCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                switch(direction){
+                    case ItemTouchHelper.RIGHT:
+                        for( int i = 0 ; i < Login.listaUsuarios.get(ventanaPrincipal.posicion).getListaRecetas().size();i++){
+                            if(Login.listaUsuarios.get(ventanaPrincipal.posicion).getListaRecetas().get(i).getId() == receta.getId()){
+                                Login.listaUsuarios.get(ventanaPrincipal.posicion).getListaRecetas().get(i).getListaIngredientes().remove(viewHolder.getAdapterPosition());
+                            }
+                        }
+                        adaptador.notifyItemRemoved(viewHolder.getAdapterPosition());
+                        break;
+                    case ItemTouchHelper.LEFT:
+                        adaptador.notifyDataSetChanged();
+                        break;
+                }
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+                int margen = (int)getResources().getDimension(R.dimen.margen);
+                Drawable icono;
+                Paint pincel = new Paint();
+                pincel.setColor(getResources().getColor(R.color.colorGrisBlanca));
+                int sizetext = getResources().getDimensionPixelSize(R.dimen.tamanyoEliminar);
+                pincel.setTextSize(sizetext);
+
+                if(dX > 0){
+                    c.clipRect(viewHolder.itemView.getLeft(),viewHolder.itemView.getTop(),dX,viewHolder.itemView.getBottom());
+
+                    if(dX < recyclerView.getWidth() / 3)
+                        c.drawColor(Color.GRAY);
+                    else
+                        c.drawColor(getResources().getColor(R.color.colorBorrarGranate));
+
+                    icono = DetallesFragment.super.getResources().getDrawable(R.drawable.ic_delete_sweep_black_24dp);
+                    icono.setBounds(new Rect(viewHolder.itemView.getLeft()+margen-15, viewHolder.itemView.getTop()+margen, viewHolder.itemView.getHeight()-margen, viewHolder.itemView.getBottom()-margen));
+                    icono.draw(c);
+                    pincel.setTextAlign(Paint.Align.LEFT);
+                    c.drawText(getResources().getString(R.string.eliminar),viewHolder.itemView.getHeight(),viewHolder.itemView.getBottom()-viewHolder.itemView.getHeight()/2+sizetext/2,pincel);
+
+                }
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(myCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -121,7 +187,7 @@ public class DetallesFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onIngrediente(String name_ingre, String cantidad) {
-        Ingredientes ingre = new Ingredientes(cantidad,name_ingre);
+        Ingredientes ingre = new Ingredientes(cantidad,name_ingre,1,1);
         if(receta!=null)
             receta.getListaIngredientes().add(ingre);
         else
