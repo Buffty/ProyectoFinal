@@ -8,11 +8,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+import com.example.proyecto_final_android_2019_20.ASyncTask.CreateInServer;
 import com.example.proyecto_final_android_2019_20.R;
 import com.example.proyecto_final_android_2019_20.entities.Usuarios;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.concurrent.ExecutionException;
 
 public class recuperarContrasenya extends AppCompatActivity implements View.OnClickListener {
 
@@ -91,22 +94,32 @@ public class recuperarContrasenya extends AppCompatActivity implements View.OnCl
             txt_edit_contr_compr.setError("Las contraseñas no coinciden");
         }else{
 
-            /*Usuarios user = comprobarUsuario(new Usuarios(txt_edit_usua.getText().toString(),"","",""));
+            Usuarios user = comprobarUsuario(new Usuarios(1,txt_edit_usua.getText().toString(),"","",""));
 
             if(user!=null){
                 for(int i = 0 ; i < Login.listaUsuarios.size() ; i ++)
                     if(Login.listaUsuarios.get(i).equals(user))
                         Login.listaUsuarios.get(i).setPassword(txt_edit_contr.getText().toString());
 
-                   // Login.usuarioDatabase.setValue(Login.listaUsuarios);
-                    Intent inten = new Intent(recuperarContrasenya.this,Login.class);
-                    startActivity(inten);
+                CreateInServer createInServer = new CreateInServer();
+                while(true) {
+                    try {
+                        if(createInServer.execute("Contrasenya").get()) break;
+
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Intent intent = new Intent(recuperarContrasenya.this,Login.class);
+                startActivity(intent);
 
             }else{
 
                 txt_edit_usua.setError("El Usuario no es el correcto");
 
-            }*/
+            }
 
         }
     }

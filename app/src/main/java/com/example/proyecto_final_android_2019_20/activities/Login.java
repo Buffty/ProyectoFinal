@@ -112,19 +112,24 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Di
     }
 
     @Override
+    protected void onResume() {
+        if(this.dial!=null)
+            this.dial.dismiss();
+        super.onResume();
+    }
+
+    @Override
     protected void onPause() {
-        if(this.conectar!=null){
+        if(this.conectar!=null)
             this.conectar.cancel(true);
-        }
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
 
-        if(conectar!=null){
+        if(conectar!=null)
             conectar.cancel(true);
-        }
         super.onDestroy();
     }
 

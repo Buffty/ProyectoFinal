@@ -45,7 +45,7 @@ public class ConectarServidores extends AsyncTask<Void, ArrayList<String>, Boole
         // un array de Objectos y luego el 3 new Object es para hacer el filtrado
         // para que cumpla esa condición
 
-        List<HashMap<String, Object>> listaUsuarios = oc.search_read("res.partner", new Object[]{new Object[]{new Object[]{"is_app", "=", true}}}, "name","is_app", "passwd", "email", "country_id","recetas_id");
+        List<HashMap<String, Object>> listaUsuarios = oc.search_read("res.partner", new Object[]{new Object[]{new Object[]{"is_app", "=", true}}}, "name","is_app", "passwd", "email", "country_id","recetas_id","image");
 
         for (Map mapa : listaUsuarios) {
             rellenarCamposDeUsuario(mapa);
@@ -77,6 +77,8 @@ public class ConectarServidores extends AsyncTask<Void, ArrayList<String>, Boole
                     case "email":
                         usuarios.setEmail(rellenarDatos.get(i));
                         break;
+                    case "image":
+                        usuarios.setImagen(rellenarDatos.get(i));
                     case "country_id":
                         usuarios.setPais(rellenarDatos.get(i));
                         break;

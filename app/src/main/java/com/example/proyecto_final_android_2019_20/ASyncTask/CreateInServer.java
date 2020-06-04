@@ -63,11 +63,10 @@ public class CreateInServer extends AsyncTask<String, ArrayList<String>, Boolean
                     Login.listaUsuarios.get(ventanaPrincipal.posicion).getListaRecetas().get(i).setListaIngredientes(listaIngredientes);
                 }
             }
-
+        }else if(frase.equals("Contrasenya") || frase.equals("Cerrar sesion")){
+            HashMap<String, Object> usuarios = rellenarUsuarioEspecifico();
+            escribirUsuario(usuarios,Login.listaUsuarios.get(ventanaPrincipal.posicion).getId());
         }
-
-
-
         return true;
     }
 
@@ -75,8 +74,15 @@ public class CreateInServer extends AsyncTask<String, ArrayList<String>, Boolean
         for (Recetas receta: Login.listaUsuarios.get(ventanaPrincipal.posicion).getListaRecetas()) {
             crearReceta(receta);
         }
-
-
+    }
+    private void escribirUsuario(HashMap<String,Object> user,int id){
+        Object[]ids = new Object[1];
+        try{
+            ids[0] = id;
+            oc.write("res.partner",ids,user);
+        }finally {
+            ids = null;
+        }
     }
 
     private HashMap<String,Object> rellenarUsuario(){
@@ -88,6 +94,25 @@ public class CreateInServer extends AsyncTask<String, ArrayList<String>, Boolean
             mapeo.put("id", usuarios.getId());
             mapeo.put("email", usuarios.getEmail());
             mapeo.put("country_id", Utilidades.sacarIdPais(usuarios.getPais()));
+            mapeo.put("image",usuarios.getImagen());
+            mapeo.put("is_app", true);
+            return mapeo;
+        }finally {
+            mapeo = null;
+            usuarios = null;
+        }
+    }
+
+    private HashMap<String,Object> rellenarUsuarioEspecifico(){
+        HashMap<String,Object> mapeo = new HashMap<>();
+        Usuarios usuarios = Login.listaUsuarios.get(ventanaPrincipal.posicion);
+        try {
+            mapeo.put("passwd", usuarios.getPassword());
+            mapeo.put("name", usuarios.getNombre());
+            mapeo.put("id", usuarios.getId());
+            mapeo.put("email", usuarios.getEmail());
+            mapeo.put("country_id", Utilidades.sacarIdPais(usuarios.getPais()));
+            mapeo.put("image",usuarios.getImagen());
             mapeo.put("is_app", true);
             return mapeo;
         }finally {

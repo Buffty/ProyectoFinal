@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.proyecto_final_android_2019_20.ASyncTask.BorrarListaRecetas;
 import com.example.proyecto_final_android_2019_20.ASyncTask.CargarListaRecetas;
+import com.example.proyecto_final_android_2019_20.ASyncTask.CreateInServer;
 import com.example.proyecto_final_android_2019_20.R;
 import com.example.proyecto_final_android_2019_20.adapters.AdaptorRecetas;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -37,6 +39,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -61,14 +64,15 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
     private NavigationView navigator;
     private DrawerLayout drawer;
     private ImageView imagenUsuario;
-
+    private Bitmap imagen;
+    private Boolean cambios;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ventana_principal);
-
+        cambios = false;
         if(this.getIntent().getExtras()!=null){
             retorno = this.getIntent().getExtras();
             posicion = (Integer) retorno.getInt("Posicion");
@@ -138,7 +142,7 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
                                 e.printStackTrace();
                             }
                         }
-                        Login.listaUsuarios.get(posicion).getListaRecetas().remove(viewHolder.getAdapterPosition());
+                        Login.listaUsuarios.get(posicion).eliminarRecetas(Login.listaUsuarios.get(posicion).getListaRecetas().get(viewHolder.getAdapterPosition()));
                         adaptador.notifyItemRemoved(viewHolder.getAdapterPosition());
                         break;
                     case ItemTouchHelper.LEFT:
@@ -214,6 +218,11 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
         layoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         txt_usuario.setText(Login.listaUsuarios.get(posicion).getNombre());
+        if(!Login.listaUsuarios.get(posicion).getImagen().equals("")) {
+            byte[] decodedString = Base64.decode(Login.listaUsuarios.get(posicion).getImagen(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            imagenUsuario.setImageBitmap(decodedByte);
+        }
     }
 
     @Override
@@ -242,12 +251,27 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
         if(requestCode == ACTIVITY_IMAGE_SELECT){
             mImage = data.getData();
             setPic();
+            try {
+                Bitmap bm = imagen;
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
+                byte[] b = baos.toByteArray();
+                Login.listaUsuarios.get(posicion).setImagen(Base64.encodeToString(b, Base64.DEFAULT));
+            }catch (NullPointerException ex){
+                Bitmap bm = BitmapFactory.decodeResource(this.getResources(),R.drawable.logo_usu);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
+                byte[] b = baos.toByteArray();
+                Login.listaUsuarios.get(posicion).setImagen(Base64.encodeToString(b, Base64.DEFAULT));
+            }
+
         }else {
             adaptador.notifyDataSetChanged();
             switch (resultCode) {
                 case 0:
-                    Uri dato = data.getData();
+                    mImage = data.getData();
                     posicion = (Integer) data.getExtras().getInt("Posicion");
+
                     swipeRefreshLayout.setRefreshing(true);
                     break;
             }
@@ -283,9 +307,9 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
         try {
             parcelFileDescriptor = getContentResolver().openFileDescriptor( mImage , "r" );
             FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-            Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+            imagen = BitmapFactory.decodeFileDescriptor(fileDescriptor);
             parcelFileDescriptor.close();
-            imagenUsuario.setImageBitmap(bitmap);
+            imagenUsuario.setImageBitmap(imagen);
             imagenUsuario.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -313,6 +337,7 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.imagen_usu:
                 galleryAddPic();
+                cambios = true;
                 break;
 
         }
@@ -322,11 +347,6 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
         Intent mediaScanIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(mediaScanIntent,ACTIVITY_IMAGE_SELECT);
     }
-
-
-
-
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -340,6 +360,18 @@ public class ventanaPrincipal extends AppCompatActivity implements View.OnClickL
                 prefEditor.putBoolean("login",true);
                 prefEditor.apply();
                 prefEditor.commit();
+                if(!cambios) {
+                    CreateInServer createInServer = new CreateInServer();
+                    while (true) {
+                        try {
+                            if (createInServer.execute("Cerrar sesion").get()) break;
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
                 this.finish();
                 break;
             case R.id.opc_configure:

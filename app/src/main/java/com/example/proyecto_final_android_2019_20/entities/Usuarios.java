@@ -1,10 +1,17 @@
 package com.example.proyecto_final_android_2019_20.entities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
+import com.example.proyecto_final_android_2019_20.R;
+
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Usuarios implements Serializable {
-    String nombre, email, password,pais;
+    String nombre, email, password,pais, imagen;
     ArrayList<Recetas> listaRecetas;
     int id;
     boolean app;
@@ -20,18 +27,36 @@ public class Usuarios implements Serializable {
         this.pais=pais;
         this.listaRecetas = new ArrayList<Recetas>();
         this.id = id;
-        app = true;
+        this.app = true;
+        this.imagen = "";
+    }
+    public Usuarios(int id, String nombre, String email, String password, String pais, String imagen) {
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.pais=pais;
+        this.listaRecetas = new ArrayList<Recetas>();
+        this.id = id;
+        this.app = true;
+        this.imagen = imagen;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public void addRecetas(Recetas receta){
         this.listaRecetas.add(0,receta);
     }
 
-    public Recetas buscarReceta(String titulo){
+    private Recetas buscarReceta(String titulo){
         for (Recetas rec : listaRecetas)
             if(rec.getNombre().equals(titulo))
                 return rec;
-
         return null;
     }
 
